@@ -1,7 +1,16 @@
 import React,  { useState } from 'react';
 import breathe from "../src/images/breathe.mp4";
+import {AuthContext} from "./context/auth";
+import { useContext } from 'react';
+import {Redirect} from 'react-router-dom';
+
 
 function Breathe() {
+    const auth = useContext(AuthContext)
+  if (!auth.isLoggedIn) {
+  return <Redirect to='/' />
+  }
+
   return (<>
     <style> {'body {background-color:#393e46; transition: background-color 1.5s ease-in-out;}'}></style>
     <div className="container card" data-aos="zoom-in" data-aos-duration="2000" data-aos-once="ture" style={{backgroundColor:'#393e46', marginTop:'20px',marginBottom:'20px'}}>
