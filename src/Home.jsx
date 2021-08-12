@@ -4,38 +4,68 @@ import { NavLink } from 'react-router-dom';
 import notification from "../src/images/notification.png";
 import interest from "../src/images/interest.png";
 import meditate from "../src/images/meditate.png"
+import { GoogleLogin } from 'react-google-login';
 import './css/App.css'
-
-
+import {AuthContext} from "./context/auth";
+import { useContext } from 'react';
+import { useGoogleLogin } from 'react-google-login'
 
 const Home =() => {
+  const auth = useContext(AuthContext)
+  const [loginButton, setloginButton] = useState(false);
+  //const [loginData, setloginData] = useState({});
+  //const [login, setlogin] = useState(false);
 
+
+  const responseGoogle = (response) => {
+    const user = {
+      user:response.profileObj.name,
+      email:response.profileObj.email
+    };
+
+      console.log(user);
+      auth.login();
+      auth.setLoggedInUser(user);
+      console.log(auth.user);
+  }
 
 
     return (
         <>
             <section id="header" className="d-flex align-items-center">
+
                 <div className="container-fluid nav_bg">
                     <div className="row">
                         <div className="col-10 mx-auto">
                             <div className="row">
                             <div className="col-md-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex justify- content-center flex-column">
-                                <h1>
+                                {!auth.isLoggedIn ? <h1>
                                      A healthy and happy body is worth the <strong className="brand-name"> Effort</strong>
-                                </h1>
+                                </h1>:<h1>Hello <strong className="brand-name"> {auth.user.userName} </strong> Welcome!! </h1>}
 
 
                                 <h2 className="my-3">
                                     We are the team of talented developer making websites
                                 </h2>
 
-                                <div className="mt-3">
-                                    <button className="btn-get-started" > Login </button>
-                                </div>
+                                {!auth.isLoggedIn ? <div className="mt-3">
+                                    <button className="btn-get-started" onClick={()=>{setloginButton(true)}} > Login </button>
+                                </div>:null}
                            </div>
                            <div className="col-lg-6 order-1 order-lg-2 header-img">
-                                <div className="animation-two"><lottie-player className="animation-two" src="https://assets2.lottiefiles.com/packages/lf20_ocGoFt.json"  background="transparent"  speed="1"  style={{width: '450px', height: '450px'}}  loop  autoplay></lottie-player></div>
+                                {((!auth.isLoggedIn && !loginButton)  || (auth.isLoggedIn && loginButton) || (auth.isLoggedIn && !loginButton)) && <div className="animation-two"><lottie-player className="animation-two" src="https://assets2.lottiefiles.com/packages/lf20_ocGoFt.json"  background="transparent"  speed="1"  style={{width: '450px', height: '450px'}}  loop  autoplay></lottie-player></div>}
+                                {(!auth.isLoggedIn && loginButton)  && <div class="container text-center">
+                                  <GoogleLogin
+                                 clientId="942867383585-teeiktr8qv4g9dimnqb31gq0j2pfc9hd.apps.googleusercontent.com"
+                                 buttonText="Login with Google"
+                                 onSuccess={responseGoogle}
+                                 onFailure={responseGoogle}
+                                 isSignedIn={true}
+                                 cookiePolicy={'single_host_origin'}
+                               />
+                               </div>}
                             </div>
+
 
                             </div>
                         </div>
@@ -94,6 +124,7 @@ const Home =() => {
                   <p style={{color:'#24a0ed', letterSpacing:"5px"}}>© ℗ ® ™ Copyright 2021 OurBrand</p>
                 </div>
             </section>
+
 
         </>
     );

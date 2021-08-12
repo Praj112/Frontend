@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import {AuthContext} from "./context/auth";
+import { useContext } from 'react';
+
 
 const Navbar =() => {
-
-
+  const auth = useContext(AuthContext);
 
     return (
         <>
@@ -27,14 +28,13 @@ const Navbar =() => {
                                     <li className="nav-item">
                                         <NavLink style={{color:'white'}} activeClassName='menu_active' exact className="nav-link active" aria-current="page" to="/contact">Contact</NavLink>
                                     </li>
-                                    <li className="nav-item">
+                                    {auth.isLoggedIn ? <li className="nav-item">
                                         <NavLink style={{color:'white'}} activeClassName='menu_active' className="nav-link" to="/breathe">Breathe</NavLink>
-                                    </li>
+                                    </li>:null}
 
-
-                                    <li className="nav-item">
-                                        <button type="button" className="btn btn-danger">Logout</button>
-                                    </li>
+                                    {auth.isLoggedIn ?  <li className="nav-item">
+                                        <button type="button" className="btn btn-danger" onClick={()=>{auth.logout()}}>Logout</button>
+                                    </li>:null}
                                 </ul>
                             </div>
                         </div>
@@ -42,7 +42,7 @@ const Navbar =() => {
                 </div>
             </div>
         </div>
-        <ToastContainer />
+
         </>
     );
 };
