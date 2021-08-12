@@ -18,6 +18,7 @@ const Home =() => {
 
 
   const responseGoogle = (response) => {
+    console.log(response);
     const user = {
       user:response.profileObj.name,
       email:response.profileObj.email
@@ -60,7 +61,7 @@ const Home =() => {
                                  buttonText="Login with Google"
                                  onSuccess={responseGoogle}
                                  onFailure={responseGoogle}
-                                 isSignedIn={true}
+                                 isSignedIn={auth.isLoggedIn}
                                  cookiePolicy={'single_host_origin'}
                                />
                                </div>}

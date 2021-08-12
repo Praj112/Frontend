@@ -7,6 +7,7 @@ import { useContext } from 'react';
 const Navbar =() => {
   const auth = useContext(AuthContext);
 
+
     return (
         <>
         <div className="nav_bg">
@@ -35,6 +36,8 @@ const Navbar =() => {
                                     {auth.isLoggedIn ?  <li className="nav-item">
                                         <button type="button" className="btn btn-danger" onClick={()=>{auth.logout()}}>Logout</button>
                                     </li>:null}
+
+
                                 </ul>
                             </div>
                         </div>
