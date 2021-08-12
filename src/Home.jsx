@@ -22,7 +22,7 @@ const Home =() => {
       user:response.profileObj.name,
       email:response.profileObj.email
     };
-
+    setloginButton(false);
       console.log(user);
       auth.login();
       auth.setLoggedInUser(user);

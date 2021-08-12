@@ -22,6 +22,7 @@ const App =() => {
     const auth = useContext(AuthContext)
     const logout= ()=>{
       setIsLoggedIn(false);
+      
     }
 
     const setLoggedInUser=(lUser)=>{
