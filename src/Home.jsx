@@ -1,6 +1,9 @@
-import React,  { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 
+import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect} from "react";
+import { Notifications } from 'react-push-notification';
+import addNotification from 'react-push-notification';
+import { useHistory, Redirect } from "react-router-dom";
 import notification from "../src/images/notification.png";
 import interest from "../src/images/interest.png";
 import meditate from "../src/images/meditate.png"
@@ -11,24 +14,78 @@ import { useContext } from 'react';
 import { useGoogleLogin } from 'react-google-login'
 
 const Home =() => {
+  const history = useHistory();
   const auth = useContext(AuthContext)
   const [loginButton, setloginButton] = useState(false);
+  const [email,setEmail] = useState("");
   //const [loginData, setloginData] = useState({});
   //const [login, setlogin] = useState(false);
 
 
-  const responseGoogle = (response) => {
-    console.log(response);
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(event.target.email.value);
+    // console.log(event.target.FirstName.value);
+    // console.log(event.target.LastName.value);
+    setEmail(event.target.email.value);
+
     const user = {
-      user:response.profileObj.name,
-      email:response.profileObj.email
+
+      email:event.target.email.value,
+
     };
     setloginButton(false);
       console.log(user);
       auth.login();
       auth.setLoggedInUser(user);
-      console.log(auth.user);
+      console.log(auth.isLoggedIn);
+      history.push('/service')
   }
+
+
+  
+  const [realTime, setRealTime] = useState(true);
+  const [counter, setCounter] = useState(0);
+
+
+  const buttonClick = () => {
+    console.log(auth.isLoggedIn)
+    if (auth.isLoggedIn) {
+      addNotification({
+        title: 'Hellooooo',
+        subtitle: 'This is a subtitle',
+        message: 'This is a very long message',
+        theme: 'darkblue',
+        backgroundBottom:"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
+        duration: 7000,
+        icon:"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
+        backgroundTop: 'green',
+        native: true, // when using native, your OS will handle theming.
+        silent:false
+    });
+    }else{
+      return;
+    }
+
+};
+  useEffect(() => {
+    let interval;
+    if (realTime) {
+      interval = setInterval(() => {
+        console.log('In setInterval');
+ 
+          buttonClick();
+        
+
+        // The logic of changing counter value to come soon.
+      }, 5000);
+    } else {
+       clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [true]);
+
+
 
 
     return (
@@ -42,7 +99,7 @@ const Home =() => {
                             <div className="col-md-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex justify- content-center flex-column">
                                 {!auth.isLoggedIn ? <h1>
                                      A healthy and happy body is worth the <strong className="brand-name"> Effort</strong>
-                                </h1>:<h1>Hello <strong className="brand-name"> {auth.user.userName} </strong> Welcome!! </h1>}
+                                </h1>:<h1>Hello <strong className="brand-name"> {auth.user.email.split('@')[0].charAt(0).toUpperCase()+auth.user.email.split('@')[0].slice(1)} </strong> Welcome!! </h1>}
 
 
                                 <h2 className="my-3">
@@ -55,15 +112,15 @@ const Home =() => {
                            </div>
                            <div className="col-lg-6 order-1 order-lg-2 header-img">
                                 {((!auth.isLoggedIn && !loginButton)  || (auth.isLoggedIn && loginButton) || (auth.isLoggedIn && !loginButton)) && <div className="animation-two"><lottie-player className="animation-two" src="https://assets2.lottiefiles.com/packages/lf20_ocGoFt.json"  background="transparent"  speed="1"  style={{width: '450px', height: '450px'}}  loop  autoplay></lottie-player></div>}
-                                {(!auth.isLoggedIn && loginButton)  && <div class="container text-center">
-                                  <GoogleLogin
-                                 clientId="942867383585-teeiktr8qv4g9dimnqb31gq0j2pfc9hd.apps.googleusercontent.com"
-                                 buttonText="Login with Google"
-                                 onSuccess={responseGoogle}
-                                 onFailure={responseGoogle}
-                                 isSignedIn={auth.isLoggedIn}
-                                 cookiePolicy={'single_host_origin'}
-                               />
+                                {(!auth.isLoggedIn && loginButton)  && <div class="text-center">
+                                  <form onSubmit={handleSubmit}>
+                                  <div class="form-group">
+                                      <label for="exampleInputEmail1">Email address</label>
+                                      <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email"/>
+                                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                  </div>
+                                  <button type="submit" class="btn btn-primary" >Submit</button>
+                                  </form>
                                </div>}
                             </div>
 

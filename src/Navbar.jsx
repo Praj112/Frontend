@@ -2,11 +2,15 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {AuthContext} from "./context/auth";
 import { useContext } from 'react';
-
+import { useHistory, Redirect } from "react-router-dom";
 
 const Navbar =() => {
   const auth = useContext(AuthContext);
-
+  const history = useHistory();
+    function logoutRedirect(){
+        auth.logout()
+        history.push('/service')
+    }
 
     return (
         <>
@@ -34,7 +38,7 @@ const Navbar =() => {
                                     </li>:null}
 
                                     {auth.isLoggedIn ?  <li className="nav-item">
-                                        <button type="button" className="btn btn-danger" onClick={()=>{auth.logout()}}>Logout</button>
+                                        <button type="button" className="btn btn-danger" onClick={logoutRedirect}>Logout</button>
                                     </li>:null}
 
 
