@@ -2,6 +2,11 @@ import Form from "react-bootstrap/Form";
 import {AuthContext} from "./context/auth";
 import { useContext } from 'react';
 import Button from "react-bootstrap/Button";
+import Meditate from "../src/images/yoga.jpg"
+import Reading from "../src/images/Reading.jpg"
+import Dancing from "../src/images/dance.jpg"
+import Gardening from "../src/images/gardening.jpg"
+import Music from "../src/images/music.jpg"
 import React, { useState, useEffect } from 'react';
 import './css/Time.css'
 import { useHistory, Redirect } from "react-router-dom";
@@ -107,7 +112,6 @@ const Service =() => {
 
     return (
         <>
-            <h1> Welcome Services  Page </h1>
             { 
                 showform && 
             <div className ="time container">
@@ -150,66 +154,51 @@ const Service =() => {
             {
               showIntrest &&
             <div className="content" >
-        <h1 className="heading">Card Flip</h1>
+        <h1 className="heading">Select your Intrests</h1>
         <p className="description">Hover over a card to flip it.</p><a className="card" href="#!">
-          <div className="front" style={{backgroundImage: 'url(//source.unsplash.com/300x401)'}}>
-            <p>Lorem ipsum dolor sit amet consectetur adipisi.</p>
+          <div className="front" style={{backgroundImage: `url(${Dancing})`}}>
+            <p>Dancing</p>
           </div>
           <div className="back">
             <div>
-              <p>Consectetur adipisicing elit. Possimus, praesentium?</p>
-              <p>Provident consectetur natus voluptatem quis tenetur sed beatae eius sint.</p>
-              <button className="button" onClick={()=>{setIntrest([...Intrest,"music"])} }>Click Here</button>
+              <p>There are short-cuts to happiness, and dancing is one of them.</p>
+              <button className="button" onClick={()=>{setIntrest([...Intrest,"Dancing"])} }>Subscibe</button>
             </div>
           </div></a><a className="card" href="#!">
-          <div className="front" style={{backgroundImage: 'url(//source.unsplash.com/300x402)'}}>
-            <p>Lorem ipsum dolor sit amet consectetur adipisi.</p>
+          <div className="front" style={{backgroundImage: `url(${Meditate})`}}>
+            <p>Meditation</p>
           </div>
           <div className="back">
             <div>
-              <p>Consectetur adipisicing elit. Possimus, praesentium?</p>
-              <p>Provident consectetur natus voluptatem quis tenetur sed beatae eius sint.</p>
-              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"music"])} }>Click Here</button>
+              <p>Meditation helps you stay in a clear-headed state so that when challenges come at you, you can deal with them like a ninja – in a calm thoughtful way.</p>
+              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Meditate"])} }>Subscibe</button>
             </div>
           </div></a><a className="card" href="#!">
-          <div className="front" style={{backgroundImage: 'url(//source.unsplash.com/300x403)'}}>
-            <p>Lorem ipsum dolor sit amet consectetur adipisi.</p>
+          <div className="front" style={{backgroundImage: `url(${Gardening})`}}>
+            <p>Gardening</p>
           </div>
           <div className="back">
             <div>
-              <p>Consectetur adipisicing elit. Possimus, praesentium?</p>
-              <p>Provident consectetur natus voluptatem quis tenetur sed beatae eius sint.</p>
-            <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"music"])}}>Click Here</button>
+              <p>The garden suggests there might be a place where we can meet nature halfway.</p>
+            <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Gardening"])}}>Subscibe</button>
             </div>
           </div></a><a className="card" href="#!">
-          <div className="front" style={{backgroundImage: 'url(//source.unsplash.com/300x404)'}}>
-            <p>Lorem ipsum dolor sit amet consectetur adipisi.</p>
+          <div className="front" style={{backgroundImage: `url(${Reading})`}}>
+            <p>Reading</p>
           </div>
           <div className="back">
             <div>
-              <p>Consectetur adipisicing elit. Possimus, praesentium?</p>
-              <p>Provident consectetur natus voluptatem quis tenetur sed beatae eius sint.</p>
-              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"music"])}}>Click Here</button>
+              <p>Sometimes you just need to lay on the couch and read for a couple of years.</p>
+              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Reading"])}}>Subscribe</button>
             </div>
           </div></a><a className="card" href="#!">
-          <div className="front" style={{backgroundImage: 'url(//source.unsplash.com/300x405)'}}>
-            <p>Lorem ipsum dolor sit amet consectetur adipisi.</p>
+          <div className="front" style={{backgroundImage: `url(${Music})`}}>
+            <p>Listening Music</p>
           </div>
           <div className="back">
             <div>
-              <p>Consectetur adipisicing elit. Possimus, praesentium?</p>
-              <p>Provident consectetur natus voluptatem quis tenetur sed beatae eius sint.</p>
-              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"music"])}}>Click Here</button>
-            </div>
-          </div></a><a className="card" href="#!">
-          <div className="front" style={{backgroundImage: 'url(//source.unsplash.com/300x406)'}}>
-            <p>Lorem ipsum dolor sit amet consectetur adipisi.</p>
-          </div>
-          <div className="back">
-            <div>
-              <p>Consectetur adipisicing elit. Possimus, praesentium?</p>
-              <p>Provident consectetur natus voluptatem quis tenetur sed beatae eius sint.</p>
-              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"music"])}}>Click Here</button>
+              <p>Music is a language that doesn’t speak in particular words. It speaks in emotions, and if it’s in the bones, it’s in the bones.</p>
+              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Music"])}}>Subscibe</button>
             </div>
           </div></a>
           <Button block size="lg" type="submit" onClick={handleTimeSubmit}>Submit</Button>
