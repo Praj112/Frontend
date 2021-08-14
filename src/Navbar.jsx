@@ -27,9 +27,9 @@ const Navbar =() => {
                             </button>
                             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul className="navbar-nav ml-auto mb-2 mb-lg-0"  >
-                                    <li className="nav-item">
+                                {auth.isLoggedIn ?<li className="nav-item">
                                         <NavLink style={{color:'white'}} activeClassName='menu_active' exact className="nav-link active" aria-current="page" to="/service">Service</NavLink>
-                                    </li>
+                                    </li>:null}
                                     <li className="nav-item">
                                         <NavLink style={{color:'white'}} activeClassName='menu_active' exact className="nav-link active" aria-current="page" to="/contact">Contact</NavLink>
                                     </li>

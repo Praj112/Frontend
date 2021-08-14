@@ -103,16 +103,32 @@ const Home =() => {
       console.log("Failed to connect to server")
     }
   
+    const image = {
+      "music":"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
+      "running":"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
+      "yoga":"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
+      "reading":"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
+      "gaming":"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg"         
+    }
 
+    const Intrest =["music","running","yoga","reading","gaming"]
 
+    var Notification_title;
+    var Notification_image;
+    for (let index = 0; index < 6; index++) {
+      if("yoga" ==  Intrest[index])                               // add responsedata
+      {
+            Notification_title = Intrest[index]
+            Notification_image = image[Intrest[index]]
+      }
+    }
       addNotification({
-        title: 'Hellooooo',
-        subtitle: 'This is a subtitle',
+        title: `${Notification_title}`,
         message: `${notification}`,
         theme: 'darkblue',
         backgroundBottom:"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
         duration: 7000,
-        icon:"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
+        icon:`${Notification_image}`,
         backgroundTop: 'green',
         native: true, // when using native, your OS will handle theming.
         silent:false
@@ -166,17 +182,17 @@ const Home =() => {
                                   <form onSubmit={submitHandler}>
                                   <div class="form-group">
                                       <label for="exampleInputEmail1">Email address</label>
-                                      <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email"/>
+                                      <input type="email" class="form-control" id="exampleInputEmail1" required name="email" placeholder="Enter email"/>
                                       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                                   </div>
                                   <div class="form-group">
                                       <label >First Name</label>
-                                      <input type="firstName" class="form-control"  name="firstName" placeholder="Enter First Name"/>
+                                      <input type="firstName" class="form-control"  name="firstName" required placeholder="Enter First Name"/>
                                      
                                   </div>
                                   <div class="form-group">
                                       <label >Last Name</label>
-                                      <input type="lastName" class="form-control"  name="lastName" placeholder="Enter Last Name"/>
+                                      <input type="lastName" class="form-control"  name="lastName" required placeholder="Enter Last Name"/>
                                   </div>
                                   <button type="submit" class="btn btn-primary" >Submit</button>
                                   </form>
