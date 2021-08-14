@@ -35,7 +35,8 @@ const App =() => {
 
       setUser({
         email:lUser.email,
-
+        firstName:lUser.firstName,
+        lastName:lUser.lastName
       })
       console.log(user);
     }

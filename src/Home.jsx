@@ -1,5 +1,4 @@
 
-import { NavLink } from 'react-router-dom';
 import React, { useState, useEffect} from "react";
 import { Notifications } from 'react-push-notification';
 import addNotification from 'react-push-notification';
@@ -7,27 +6,29 @@ import { useHistory, Redirect } from "react-router-dom";
 import notification from "../src/images/notification.png";
 import interest from "../src/images/interest.png";
 import meditate from "../src/images/meditate.png"
-import { GoogleLogin } from 'react-google-login';
 import './css/App.css'
 import {AuthContext} from "./context/auth";
 import { useContext } from 'react';
-import { useGoogleLogin } from 'react-google-login'
+
 
 const Home =() => {
   const history = useHistory();
   const auth = useContext(AuthContext)
   const [loginButton, setloginButton] = useState(false);
   const [email,setEmail] = useState("");
-  //const [loginData, setloginData] = useState({});
-  //const [login, setlogin] = useState(false);
+  const [firstName,setFirstName] = useState("");
+  const [lastName,setLastName] = useState("");
 
 
-  function handleSubmit(event) {
+
+ /* function handleSubmit(event) {
     event.preventDefault();
     console.log(event.target.email.value);
     // console.log(event.target.FirstName.value);
     // console.log(event.target.LastName.value);
     setEmail(event.target.email.value);
+    setFirstName(event.target.email.value);
+    setLastName(event.target.email.value);
 
     const user = {
 
@@ -40,21 +41,74 @@ const Home =() => {
       auth.setLoggedInUser(user);
       console.log(auth.isLoggedIn);
       history.push('/service')
+  }*/
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    setEmail(event.target.email.value);
+    setFirstName(event.target.firstName.value);
+    setLastName(event.target.lastName.value);
+
+    const user = {
+      firstName : event.target.firstName.value,
+      lastName:event.target.lastName.value,
+      email:event.target.email.value,
+
+    };
+
+    try {
+        const response = await fetch('https://reqres.in/api/users',{
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+      const responseData = await response.json()
+      console.log(responseData)
+      if (responseData) {
+        auth.login()
+        setloginButton(false);
+        console.log("logged");
+        auth.setLoggedInUser(user)
+        history.push('/service')
+      }
+      else {
+        console.log(responseData)
+      }
+    } catch (e) {
+      console.log("Failed to connect to server")
+    }
   }
 
 
-  
-  const [realTime, setRealTime] = useState(true);
-  const [counter, setCounter] = useState(0);
 
 
-  const buttonClick = () => {
+  const getNotification = async () => {
     console.log(auth.isLoggedIn)
     if (auth.isLoggedIn) {
+      let notification=''
+      //call to notification api route goes here...
+      try {
+        const response = await fetch(`https://reqres.in/api/users/${auth.user.email}`)
+      const responseData = await response.json()
+      console.log(responseData)
+      if (responseData) {
+        notification= "This is notification from api"
+      }
+      else {
+        console.log(responseData)
+      }
+    } catch (e) {
+      console.log("Failed to connect to server")
+    }
+  
+
+
       addNotification({
         title: 'Hellooooo',
         subtitle: 'This is a subtitle',
-        message: 'This is a very long message',
+        message: `${notification}`,
         theme: 'darkblue',
         backgroundBottom:"https://randomwordgenerator.com/img/picture-generator/film-102681_640.jpg",
         duration: 7000,
@@ -68,22 +122,18 @@ const Home =() => {
     }
 
 };
-  useEffect(() => {
+ useEffect(() => {
     let interval;
-    if (realTime) {
+
       interval = setInterval(() => {
         console.log('In setInterval');
- 
-          buttonClick();
-        
-
-        // The logic of changing counter value to come soon.
+          getNotification();
+    
       }, 5000);
-    } else {
-       clearInterval(interval);
-    }
+
+    
     return () => clearInterval(interval);
-  }, [true]);
+  }, []); 
 
 
 
@@ -99,7 +149,7 @@ const Home =() => {
                             <div className="col-md-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex justify- content-center flex-column">
                                 {!auth.isLoggedIn ? <h1>
                                      A healthy and happy body is worth the <strong className="brand-name"> Effort</strong>
-                                </h1>:<h1>Hello <strong className="brand-name"> {auth.user.email.split('@')[0].charAt(0).toUpperCase()+auth.user.email.split('@')[0].slice(1)} </strong> Welcome!! </h1>}
+                                </h1>:<h1>Hello <strong className="brand-name"> {auth.user.firstName} </strong> Welcome!! </h1>}
 
 
                                 <h2 className="my-3">
@@ -113,11 +163,20 @@ const Home =() => {
                            <div className="col-lg-6 order-1 order-lg-2 header-img">
                                 {((!auth.isLoggedIn && !loginButton)  || (auth.isLoggedIn && loginButton) || (auth.isLoggedIn && !loginButton)) && <div className="animation-two"><lottie-player className="animation-two" src="https://assets2.lottiefiles.com/packages/lf20_ocGoFt.json"  background="transparent"  speed="1"  style={{width: '450px', height: '450px'}}  loop  autoplay></lottie-player></div>}
                                 {(!auth.isLoggedIn && loginButton)  && <div class="text-center">
-                                  <form onSubmit={handleSubmit}>
+                                  <form onSubmit={submitHandler}>
                                   <div class="form-group">
                                       <label for="exampleInputEmail1">Email address</label>
                                       <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email"/>
                                       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                  </div>
+                                  <div class="form-group">
+                                      <label >First Name</label>
+                                      <input type="firstName" class="form-control"  name="firstName" placeholder="Enter First Name"/>
+                                     
+                                  </div>
+                                  <div class="form-group">
+                                      <label >Last Name</label>
+                                      <input type="lastName" class="form-control"  name="lastName" placeholder="Enter Last Name"/>
                                   </div>
                                   <button type="submit" class="btn btn-primary" >Submit</button>
                                   </form>
