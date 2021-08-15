@@ -20,6 +20,11 @@ const Service =() => {
     const [Intrest, setIntrest] = useState([]);
     const [showform, setShowform] = useState(false);
     const [showIntrest, setShowIntrest] = useState(true);
+    const [buttonTextDancing, setButtonTextDancing] = useState("Subscribe");
+    const [buttonTextMeditation, setButtonTextMeditation] = useState("Subscribe");
+    const [buttonTextGardening, setButtonTextGardening] = useState("Subscribe");
+    const [buttonTextReading, setButtonTextReading] = useState("Subscribe");
+    const [buttonTextMusic, setButtonTextMusic] = useState("Subscribe");
 
     const auth = useContext(AuthContext)
   if (!auth.isLoggedIn) {
@@ -104,12 +109,7 @@ const Service =() => {
             }
 
         }
-
-
     }
-
-
-
     return (
         <>
             { 
@@ -162,7 +162,8 @@ const Service =() => {
           <div className="back">
             <div>
               <p>There are short-cuts to happiness, and dancing is one of them.</p>
-              <button className="button" onClick={()=>{setIntrest([...Intrest,"Dancing"])} }>Subscibe</button>
+              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Dancing"])}}
+              onClick={() => setButtonTextDancing("Subscribed")}>{buttonTextDancing}</button>
             </div>
           </div></a><a className="card" href="#!">
           <div className="front" style={{backgroundImage: `url(${Meditate})`}}>
@@ -171,7 +172,8 @@ const Service =() => {
           <div className="back">
             <div>
               <p>Meditation helps you stay in a clear-headed state so that when challenges come at you, you can deal with them like a ninja – in a calm thoughtful way.</p>
-              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Meditate"])} }>Subscibe</button>
+              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Meditate"])}}
+              onClick={() => setButtonTextMeditation("Subscribed")}>{buttonTextMeditation}</button>
             </div>
           </div></a><a className="card" href="#!">
           <div className="front" style={{backgroundImage: `url(${Gardening})`}}>
@@ -180,7 +182,8 @@ const Service =() => {
           <div className="back">
             <div>
               <p>The garden suggests there might be a place where we can meet nature halfway.</p>
-            <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Gardening"])}}>Subscibe</button>
+            <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Gardening"]) } }
+            onClick={() => setButtonTextGardening("Subscribed")}>{buttonTextGardening}</button>
             </div>
           </div></a><a className="card" href="#!">
           <div className="front" style={{backgroundImage: `url(${Reading})`}}>
@@ -189,7 +192,8 @@ const Service =() => {
           <div className="back">
             <div>
               <p>Sometimes you just need to lay on the couch and read for a couple of years.</p>
-              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Reading"])}}>Subscribe</button>
+              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Reading"]) } }
+              onClick={() => setButtonTextReading("Subscribed")}>{buttonTextReading}</button>
             </div>
           </div></a><a className="card" href="#!">
           <div className="front" style={{backgroundImage: `url(${Music})`}}>
@@ -198,7 +202,8 @@ const Service =() => {
           <div className="back">
             <div>
               <p>Music is a language that doesn’t speak in particular words. It speaks in emotions, and if it’s in the bones, it’s in the bones.</p>
-              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Music"])}}>Subscibe</button>
+              <button className="button" onClick={()=>{setIntrest(prevItems => [...prevItems,"Music"])} }
+              onClick={() => setButtonTextMusic("Subscribed")}>{buttonTextMusic}</button>
             </div>
           </div></a>
           <Button block size="lg" type="submit" onClick={handleTimeSubmit}>Submit</Button>
